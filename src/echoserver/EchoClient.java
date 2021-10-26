@@ -23,14 +23,15 @@ public class EchoClient {
         OutputStream output = serverSocket.getOutputStream();
   
         // Initialize variables for bytes sent and received.
-        int sentByte = 0, receivedByte = 0;
+        int sentByte, receivedByte = 0;
 
-        while(sentByte != -1) {
-            sentByte = System.in.read();
+        while((sentByte = System.in.read()) != -1) {
             output.write(sentByte);
 
             receivedByte = input.read();
             System.out.write(receivedByte);
+
+            sentByte = System.in.read();
         }
 
         System.out.flush();
