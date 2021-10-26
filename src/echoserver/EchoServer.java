@@ -8,29 +8,32 @@ public class EchoServer {
   public static void main(String[] args) {
     try {
       // Start listening on the specified port
-      ServerSocket server = new ServerSocket(portNumber);
+      ServerSocket serverSocket = new ServerSocket(portNumber);
 
       // Run forever, which is common for server style services
       while (true) {
         // Wait until someone connects, thereby requesting a date
-        Socket client = server.accept();
+        Socket clientSocket = serverSocket.accept();
         System.out.println("Got a request!");
 
-        InputStream input = client.getInputStream();
-        OutputStream output = client.getOutputStream();
+        InputStream input = clientSocket.getInputStream();
+        OutputStream output = clientSocket.getOutputStream();
 
-        while(!client.isInputShutdown()) {
-            int sentByte = input.read();
+        int sentByte;
+
+        while((sentByte = input.read()) != -1) {
 
             output.write(sentByte);
             output.flush();
         }
         
-        client.shutdownOutput();
+        System.out.println("The request has been processed.");
+        clientSocket.shutdownOutput();
+        clientSocket.close();
       }
     // *Very* minimal error handling.
     } catch (IOException ioe) {
-      System.out.println("We caught an unexpected exception");
+      System.out.println("We caught an unexpected exception:");
       System.err.println(ioe);
     }
   }
