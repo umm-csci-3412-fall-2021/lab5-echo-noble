@@ -16,10 +16,10 @@ public class EchoClient {
   
       try {
         // Connect to the server
-        Socket socket = new Socket(server, portNumber);
+        Socket serverSocket = new Socket(server, portNumber);
   
         // Get the input stream so we can read from that socket
-        InputStream input = socket.getInputStream();
+        InputStream input = serverSocket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
   
         // Print all the input we receive from the server
@@ -29,7 +29,7 @@ public class EchoClient {
         }
   
         // Close the socket when we're done reading from it
-        socket.close();
+        serverSocket.close();
   
       // Provide some minimal error handling.
       } catch (ConnectException ce) {
