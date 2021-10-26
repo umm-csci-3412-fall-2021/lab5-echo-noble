@@ -20,23 +20,30 @@ public class EchoClient {
   
         // Get the input stream so we can read from that socket
         InputStream input = serverSocket.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        OutputStream output = serverSocket.getOutputStream();
   
         // Print all the input we receive from the server
-        String line;
-        while ((line = reader.readLine()) != null) {
-          System.out.println(line);
+        int sentByte;
+
+        while((sentByte = input.read()) != -1) {
+            output.write(sentByte);
+            output.flush();
+
+            sentByte = input.read();
+            output.write(sentByte);
+            output.flush();
         }
   
-        // Close the socket when we're done reading from it
+        System.out.println("Your data has been received.");
+        serverSocket.shutdownOutput();
         serverSocket.close();
   
       // Provide some minimal error handling.
       } catch (ConnectException ce) {
-        System.out.println("We were unable to connect to " + server);
+        System.out.println("We were unable to connect to " + server + ".");
         System.out.println("You should make sure the server is running.");
       } catch (IOException ioe) {
-        System.out.println("We caught an unexpected exception");
+        System.out.println("We caught an unexpected exception:");
         System.err.println(ioe);
       }
     }
