@@ -31,11 +31,10 @@ public class EchoClient {
 
             receivedByte = input.read();
             System.out.write(receivedByte);
-
-            System.out.flush();
-            output.flush();
         }
-  
+
+        System.out.flush();
+        output.flush();
         System.out.println("Your data has been received.");
         serverSocket.shutdownOutput();
         serverSocket.close();
